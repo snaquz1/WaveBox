@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Discover the top streamed music and songs online on WaveBox</title>
+    <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+</head>
+<body>
+<header class="header">
+    <div class="nav-panel">
+    <a href="/discover">Home</a>
+    <a href="/feed">Feed</a>
+    <a href="/library">Library</a>
+    <input class="searchbar" type="text" placeholder="Search">
+    <a href="/upload">Upload</a>
+    <a href="/profile">Profile</a>
+    </div>
+</header>
+<main>
+<section class="tracks-section">
+    <h2>Popular now</h2>
+    <div class="tracks-container">
+        <div class="tracks-wrapper">
+            {% for i in "1234567890" %}
+            <div class="track-item">
+            <audio class="audio" src="/media/audio/fart.mp3"></audio>
+                <div class="track-image">
+                    <a href="/track/{{ i }}">
+                        <img src="{{ MEDIA_URL }}dog.jpg" width="300" height="250">
+                        </a>
+                    <div class="play-overlay">
+                        <div class="play-button-div" onclick="playTrack({{ forloop.counter }})"></div>
+                        <button class="play-button">▶️</button>
+                    </div>
+                </div>
+                <div class="track-info">
+                    <h3>SongName{{ i }}</h3>
+                    <h3>ArtistName</h3>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <button class="scroll-button next">›</button>
+        <button class="scroll-button prev">‹</button>
+    </div>
+</section>
+
+
+<button class="playtracknigger">play</button>
+
+
+
+
+</main>
+</body>
+<script src="{% static 'MainApp/js/scroll.js' %}"></script>
+</html>
