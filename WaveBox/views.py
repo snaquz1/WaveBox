@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from .models import *
 
 
 # Create your views here.
@@ -9,7 +10,8 @@ def main(request):
 
 
 def discover(request):
-    return render(request, 'discover.html')
+    Tracks = Track.objects.all()
+    return render(request, 'discover.html', {'Tracks': Tracks})
 
 
 from django.shortcuts import render

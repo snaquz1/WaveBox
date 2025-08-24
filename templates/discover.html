@@ -22,21 +22,21 @@
     <h2>Popular now</h2>
     <div class="tracks-container">
         <div class="tracks-wrapper">
-            {% for i in "1234567890" %}
+            {% for t in Tracks %}
             <div class="track-item">
-            <audio class="audio" src="/media/audio/fart.mp3"></audio>
+            <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                 <div class="track-image">
-                    <a href="/track/{{ i }}">
-                        <img src="{{ MEDIA_URL }}dog.jpg" width="300" height="250">
+                    <a href="/track/{{ t.id }}">
+                        <img src="{{ t.image.url }}" width="300" height="250">
                         </a>
                     <div class="play-overlay">
-                        <div class="play-button-div" onclick="playTrack({{ forloop.counter }})"></div>
-                        <button class="play-button">▶️</button>
+                        <div class="play-button-div"></div>
+                        <button class="play-button">▶</button>
                     </div>
                 </div>
                 <div class="track-info">
-                    <h3>SongName{{ i }}</h3>
-                    <h3>ArtistName</h3>
+                    <h3>{{ t.name }}</h3>
+                    <h3>{{ t.author }}</h3>
                 </div>
             </div>
             {% endfor %}
@@ -47,7 +47,12 @@
 </section>
 
 
-<button class="playtracknigger">play</button>
+<div class="player">
+    <div class="track-info">
+        <h2 class="track-name">Name</h2>
+        <h2 class="track-author">Author</h2>
+    </div>
+</div>
 
 
 

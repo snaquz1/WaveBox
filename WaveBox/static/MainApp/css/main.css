@@ -133,3 +133,19 @@ body{
 .track-image:hover .play-overlay {
     opacity: 1; /* Делаем overlay полностью видимым */
 }
+
+
+.play-button.playing .play-icon {
+    content: "⏸"; /* Меняем на паузу при воспроизведении */
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.play-button.playing {
+    animation: pulse 2s infinite;
+}
