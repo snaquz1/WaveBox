@@ -52,7 +52,7 @@ body{
     position: relative;
     display: flex;
     align-items: center;
-    width: 50%;
+    width: fit-content;
 }
 
 .tracks-wrapper {
@@ -85,17 +85,23 @@ body{
 
 .play-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 25%;
+    left: 25%;
     width: 50%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
+
+.play-button{
+    width: 50%;
+    height: 50%;
+    border-radius: 12px;
+    font-size: 20px;
+ }
 
 .play-icon {
     font-size: 40px;
@@ -126,7 +132,7 @@ body{
 }
 
 .track-image:hover img {
-    transform: scale(1.05); /* Увеличиваем изображение на 5% */
+    transform: scale(1.1); /* Увеличиваем изображение на 5% */
 }
 
 /* При наведении на картинку трека - показываем overlay с иконкой play */
@@ -135,17 +141,5 @@ body{
 }
 
 
-.play-button.playing .play-icon {
-    content: "⏸"; /* Меняем на паузу при воспроизведении */
-}
 
-/* Анимация пульсации */
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
 
-.play-button.playing {
-    animation: pulse 2s infinite;
-}

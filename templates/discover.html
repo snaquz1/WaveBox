@@ -24,19 +24,20 @@
         <div class="tracks-wrapper">
             {% for t in Tracks %}
             <div class="track-item">
-            <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                 <div class="track-image">
                     <a href="/track/{{ t.id }}">
                         <img src="{{ t.image.url }}" width="300" height="250">
+                        
                         </a>
                     <div class="play-overlay">
-                        <div class="play-button-div"></div>
-                        <button class="play-button">▶</button>
+                        <button class="play-button" onclick="playTrack(this)">▶</button>
+                        <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                     </div>
                 </div>
+
                 <div class="track-info">
-                    <h3>{{ t.name }}</h3>
-                    <h3>{{ t.author }}</h3>
+                    <h3 class="track-name">{{ t.name }}</h3>
+                    <h3 class="track-author">{{ t.author }}</h3>
                 </div>
             </div>
             {% endfor %}
@@ -49,8 +50,8 @@
 
 <div class="player">
     <div class="track-info">
-        <h2 class="track-name">Name</h2>
-        <h2 class="track-author">Author</h2>
+        <h2 class="player-track-name">Name</h2>
+        <h2 class="player-track-author">Author</h2>
     </div>
 </div>
 
@@ -59,5 +60,5 @@
 
 </main>
 </body>
-<script src="{% static 'MainApp/js/scroll.js' %}"></script>
+<script src="{% static 'MainApp/js/exp.js' %}"></script>
 </html>

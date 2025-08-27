@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentAudio = null; // Храним текущее играющее аудио
 let currentButton = null; // Храним текущую активную кнопку
 
+let trackName = document.querySelector(".track-name")
+let trackAuthor = document.querySelector(".track-author")
+
 const playButtons = document.querySelectorAll(".play-button");
 
 playButtons.forEach(button => {
@@ -42,9 +45,9 @@ playButtons.forEach(button => {
         // Останавливаем текущее аудио если играет другое
         if (currentAudio && currentAudio !== audioElement) {
             currentAudio.pause();
-            this.innerHTML = "▶"
             currentAudio.currentTime = 0; // Сбрасываем на начало
             if (currentButton) {
+                currentButton.innerHTML = "▶"
                 currentButton.classList.remove('playing');
             }
         }
