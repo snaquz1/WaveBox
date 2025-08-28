@@ -1,13 +1,33 @@
+document.addEventListener('DOMContentLoaded', function() {
+    const trackWrappers = document.querySelectorAll('.tracks-wrapper');
+
+    trackWrappers.forEach(wrapper => {
+        const nextBtn = wrapper.parentElement.querySelector('.next');
+        const prevBtn = wrapper.parentElement.querySelector('.prev');
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                wrapper.scrollBy({ left: 1000, behavior: 'smooth' });
+            });
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                wrapper.scrollBy({ left: -1000, behavior: 'smooth' });
+            });
+        }
+    });
+});
+
 let currentAudio = null
+let currentButton = null
 function playTrack(button){
     let playOverlay = button.closest(".play-overlay")
     let audio = playOverlay.querySelector(".audio")
 
     if (currentAudio === audio && !audio.paused){
-        console.log("pause pressed")
         audio.pause();
         button.innerHTML = "▶"
-        currentAudio = null
         return
     }
 
@@ -24,6 +44,7 @@ function playTrack(button){
     currentButton = button
     audio.play()
     button.innerHTML = "⏸"
+
 
     audio.onended = function (){
         currentButton.innerHTML = "▶"

@@ -1,13 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Discover the top streamed music and songs online on WaveBox</title>
-    <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
-</head>
-<body>
-<header class="header">
+{% block title %}Discover the top streamed music and songs online on WaveBox{% endblock %}
+
+{% block body %}
+    <header class="header">
     <div class="nav-panel">
     <a href="/discover">Home</a>
     <a href="/feed">Feed</a>
@@ -27,7 +23,7 @@
                 <div class="track-image">
                     <a href="/track/{{ t.id }}">
                         <img src="{{ t.image.url }}" width="300" height="250">
-                        
+
                         </a>
                     <div class="play-overlay">
                         <button class="play-button" onclick="playTrack(this)">▶</button>
@@ -54,11 +50,8 @@
         <h2 class="player-track-author">Author</h2>
     </div>
 </div>
-
-
-
-
 </main>
-</body>
-<script src="{% static 'MainApp/js/exp.js' %}"></script>
-</html>
+{% endblock %}
+{% block script %}
+    <script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
+{% endblock %}
