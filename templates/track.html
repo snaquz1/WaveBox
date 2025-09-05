@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ track.name }} - {{ track.author }}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static "MainApp/css/track.css" %}">
+      <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div class="track-page-container">
+        <div class="track-player">
+            <div class="track-item">
+                <div class="track-image">
+                        <img src="{{ track.image.url }}">
+                    <div class="play-overlay">
+                        <button class="play-button" onclick="playTrack(this)">▶</button>
+                        <audio class="audio" src="{{ track.audiofile.url }}"></audio>
+                    </div>
+                </div>
+
+                <div class="track-info">
+                    <h3 class="track-name">{{ track.name }}</h3>
+                    <h3 class="track-author">{{ track.author }}</h3>
+                </div>
+            </div>
+            <div class="track-actions">
+                <button class="action-btn like-btn">❤️ Like</button>
+                <button class="action-btn add-to-playlist-btn">➕ Add to Playlist</button>
+                <button class="action-btn download-btn">📥 Download</button>
+            </div>
+        </div>
+    </div>
+{% block script %}
+    <script src="{% static "MainApp/js/audioandscroll.js" %}"></script>
+{% endblock %}    
+{% endblock %}

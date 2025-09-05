@@ -1,18 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Discover the top streamed music and songs online on WaveBox{% endblock %}
-
+{% block head %}
+      <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+{% endblock %}
 {% block body %}
-    <header class="header">
-    <div class="nav-panel">
-    <a href="/discover">Home</a>
-    <a href="/feed">Feed</a>
-    <a href="/library">Library</a>
-    <input class="searchbar" type="text" placeholder="Search">
-    <a href="/upload">Upload</a>
-    <a href="/profile">Profile</a>
-    </div>
-</header>
 <main>
 <section class="tracks-section">
     <h2>Popular now</h2>
@@ -23,7 +15,6 @@
                 <div class="track-image">
                     <a href="/track/{{ t.id }}">
                         <img src="{{ t.image.url }}" width="300" height="250">
-
                         </a>
                     <div class="play-overlay">
                         <button class="play-button" onclick="playTrack(this)">▶</button>
