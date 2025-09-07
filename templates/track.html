@@ -4,7 +4,7 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static "MainApp/css/track.css" %}">
-      <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -14,7 +14,7 @@
                 <div class="track-image">
                         <img src="{{ track.image.url }}">
                     <div class="play-overlay">
-                        <button class="play-button" onclick="playTrack(this)">▶</button>
+                        <button data-track-name="{{ t.name }}" data-track-author="{{ t.author }}" class="play-button" onclick="playTrack(this)">▶</button>
                         <audio class="audio" src="{{ track.audiofile.url }}"></audio>
                     </div>
                 </div>
@@ -33,5 +33,5 @@
     </div>
 {% block script %}
     <script src="{% static "MainApp/js/audioandscroll.js" %}"></script>
-{% endblock %}    
+{% endblock %}
 {% endblock %}

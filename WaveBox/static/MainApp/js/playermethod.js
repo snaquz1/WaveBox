@@ -18,26 +18,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
+let playerAudio = document.querySelector(".player-audio")
 let currentAudio = null
 let currentButton = null
 function playTrack(button){
     let playOverlay = button.closest(".play-overlay")
     let audio = playOverlay.querySelector(".audio")
-    let playerButton = document.querySelector(".player-button")
-
-    let trackTitle = document.querySelector(".track-title")
-    let trackAuthor = document.querySelector(".artist-name")
-
-    let trackName = button.getAttribute("data-track-name")
-    let trackArtistName = button.getAttribute("data-track-author")
-
-
 
     if (currentAudio === audio && !audio.paused){
         audio.pause();
         button.innerHTML = "▶"
-        playerButton.innerHTML = "▶"
         return
     }
 
@@ -46,26 +36,20 @@ function playTrack(button){
         currentAudio.currentTime = 0
         if (currentButton){
             currentButton.innerHTML = "▶"
-            playerButton.innerHTML = "▶"
         }
     }
 
 
     currentAudio = audio
+    playerAudio.innerHTML = currentAudio
     currentButton = button
-
     audio.play()
-
-    trackTitle.innerHTML = trackName
-    trackAuthor.innerHTML = trackArtistName
-
     button.innerHTML = "⏸"
     playerButton.innerHTML = "⏸"
 
 
     audio.onended = function (){
         currentButton.innerHTML = "▶"
-        playerButton.innerHTML = "▶"
         currentAudio = null
         currentButton = null
 
@@ -76,11 +60,9 @@ function playerPlayTrack(button){
     if (currentAudio && !currentAudio.paused){
         currentAudio.pause()
         button.innerHTML = "▶"
-        currentButton.innerHTML = "▶"
         return
     }
 
     currentAudio.play()
     button.innerHTML = "⏸"
-    currentButton.innerHTML = "⏸"
 }

@@ -18,5 +18,8 @@ def track(request, track_id):
     track = Track.objects.get(pk=track_id)
     return render(request, 'track.html', {"track": track})
 
+def player(request):
+    return render(request, 'player.html')
+
 
 

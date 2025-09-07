@@ -17,7 +17,8 @@
                         <img src="{{ t.image.url }}" width="300" height="250">
                         </a>
                     <div class="play-overlay">
-                        <button class="play-button" onclick="playTrack(this)">▶</button>
+                        <button data-track-name="{{ t.name }}" data-track-author="{{ t.author }}" class="play-button" onclick="playTrack(this)">▶</button>
+                        
                         <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                     </div>
                 </div>
@@ -33,13 +34,6 @@
         <button class="scroll-button prev">‹</button>
     </div>
 </section>
-
-
-<div class="player">
-    <div class="track-info">
-        <h2 class="player-track-name">Name</h2>
-        <h2 class="player-track-author">Author</h2>
-    </div>
 </div>
 </main>
 {% endblock %}

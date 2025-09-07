@@ -16,8 +16,31 @@
     <a href="/upload">Upload</a>
     <a href="/profile">Profile</a>
     </div>
-</header>
+    </header>
 {% block body %}{% endblock %}
+<div class="player">
+    <div class="player-info">
+        <h3 class="track-title">Название трека</h3>
+        <p class="artist-name">Исполнитель</p>
+    </div>
+    
+    <div class="player-controls">
+        <button class="control-btn like-btn">❤</button>
+        <button class="control-btn prev-btn">⏮</button>
+        <button class="player-button play-btn" onclick="playerPlayTrack(this)">▶</button>
+        <button class="control-btn next-btn">⏭</button>
+        <button class="control-btn repeat-btn">🔁</button>
+    </div>
+    
+    <div class="progress-container">
+        <span class="current-time">0:00</span>
+        <div class="progress-bar">
+            <div class="progress"></div>
+            <div class="progress-handle"></div>
+        </div>
+        <span class="total-time">0:00</span>
+    </div>
+</div>
 </body>
 {% block script %}{% endblock %}
 </html>
