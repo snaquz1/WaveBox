@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let currentAudio = null
 let currentButton = null
+let seekUpdate = null
 function playTrack(button){
     let playOverlay = button.closest(".play-overlay")
     let audio = playOverlay.querySelector(".audio")
@@ -38,12 +39,14 @@ function playTrack(button){
         audio.pause();
         button.innerHTML = "▶"
         playerButton.innerHTML = "▶"
+        clearInterval(seekUpdate)
         return
     }
 
     if (currentAudio && currentAudio !== audio){
         currentAudio.pause()
         currentAudio.currentTime = 0
+        clearInterval(seekUpdate)
         if (currentButton){
             currentButton.innerHTML = "▶"
             playerButton.innerHTML = "▶"
@@ -55,6 +58,7 @@ function playTrack(button){
     currentButton = button
 
     audio.play()
+    startSeekUpdate()
 
     trackTitle.innerHTML = trackName
     trackAuthor.innerHTML = trackArtistName
@@ -63,11 +67,15 @@ function playTrack(button){
     playerButton.innerHTML = "⏸"
 
 
+
+
     audio.onended = function (){
         currentButton.innerHTML = "▶"
         playerButton.innerHTML = "▶"
         currentAudio = null
         currentButton = null
+        clearInterval(seekUpdate)
+        resetSeekSlider()
 
     }
 }
@@ -84,3 +92,53 @@ function playerPlayTrack(button){
     button.innerHTML = "⏸"
     currentButton.innerHTML = "⏸"
 }
+
+function startSeekUpdate(){
+    clearInterval(seekUpdate)
+    seekUpdate = setInterval(function (){
+        if (!currentAudio) return;
+
+        const slider =  document.querySelector(".simple-seek-slider")
+        const currentTime = document.querySelector(".current-time")
+        const totalTime = document.querySelector(".total-time")
+
+        if (currentAudio.duration){
+            const progress = (currentAudio.currentTime / currentAudio.duration) * 100
+            slider.value = progress
+
+            currentTime.textContent = formatTime(currentAudio.currentTime)
+            totalTime.textContent = formatTime(currentAudio.duration)
+        }
+    }, 100)
+}
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60); // Минуты: секунды / 60
+    const secs = Math.floor(seconds % 60); // Секунды: остаток от деления на 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`; // Формат: 3:05
+}
+
+function resetSeekSlider() {
+    const slider = document.querySelector('.simple-seek-slider');
+    const currentTime = document.querySelector('.current-time');
+
+    if (slider) slider.value = 0;          // Ставим ползунок в начало
+    if (currentTime) currentTime.textContent = "0:00"; // Сбрасываем время
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим ползунок на странице
+    const slider = document.querySelector('.simple-seek-slider');
+
+    if (slider) {
+        // Слушаем, когда пользователь двигает ползунок
+        slider.addEventListener('input', function() {
+            // Если есть текущее аудио и оно загрузилось
+            if (currentAudio && currentAudio.duration) {
+                // Вычисляем куда перематывать: (ползунок% / 100) * общее время
+                const seekTime = (this.value / 100) * currentAudio.duration;
+                currentAudio.currentTime = seekTime; // Перематываем аудио!
+            }
+        });
+    }
+});

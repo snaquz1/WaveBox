@@ -14,7 +14,7 @@
                 <div class="track-image">
                         <img src="{{ track.image.url }}">
                     <div class="play-overlay">
-                        <button data-track-name="{{ t.name }}" data-track-author="{{ t.author }}" class="play-button" onclick="playTrack(this)">▶</button>
+                        <button data-track-name="{{ track.name }}" data-track-author="{{ track.author }}" class="play-button" onclick="playTrack(this)">▶</button>
                         <audio class="audio" src="{{ track.audiofile.url }}"></audio>
                     </div>
                 </div>
