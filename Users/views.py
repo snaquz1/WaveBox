@@ -1,43 +1,36 @@
 from django.contrib import messages
-from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
 
-from Users.forms import CustomUserCreationForm, LoginForm
 
+from .forms import SignUpForm, LoginForm
 
-# Create your views here.
-def register_view(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST, request.FILES)
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Регистрация прошла успешно!')
-            return redirect("/")
+            user = form.save()          # Сохраняем нового пользователя
+            login(request, user)                          # Выполняем вход
+            return redirect('main')     # Перенаправляем на главную страницу
+        else:
+            # Форма автоматически содержит ошибки валидации
+            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
-        form = CustomUserCreationForm()
-    return render(request, "register.html", {"form": form})
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
 
 def login_view(request):
-    if request.method == "POST":
-        form = LoginForm(request.POST)
+    form = LoginForm(data=request.POST or None)
+    if request.method == 'POST':
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-
+            user = authenticate(username=username, password=password) # Проверяем учетные данные
             if user is not None:
-                login(request, user)
-                messages.success(request, f"Добро пожаловать, {username}")
-                return redirect("/")
-            else:
-                messages.error(request, "Неверное имя пользователя или пароль")
-    else:
-        form = LoginForm()
-    return render(request, "login.html", {"form": form})
+                login(request, user)     # Выполняем вход
+                return redirect('home')  # Перенаправляем на главную страницу
+    return render(request, 'login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Вы успешно вышли из системы')
     return redirect('main')
-
