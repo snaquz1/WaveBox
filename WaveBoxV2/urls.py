@@ -8,6 +8,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("", include("WaveBox.urls")),
+    path("", include("Users.urls")),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ]

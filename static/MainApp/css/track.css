@@ -1,0 +1,173 @@
+/* Основной контейнер страницы */
+.track-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 40px 20px;
+    background-color: #121212;
+    color: white;
+}
+
+/* Контейнер плеера */
+.track-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Контейнер для трека - убираем лишние стили если они есть */
+.track-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Стили для обложки - ИСПРАВЛЯЕМ РАЗМЕРЫ */
+.track-image {
+    position: relative; /* Для абсолютного позиционирования overlay */
+    width: 300px;      /* Фиксированная ширина */
+    height: 300px;     /* Фиксированная высота = квадрат */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Исправляем изображение - чтобы заполняло контейнер */
+.track-image img {
+    width: 100%;       /* Занимает всю ширину контейнера */
+    height: 100%;      /* Занимает всю высоту контейнера */
+    object-fit: cover; /* ОБЯЗАТЕЛЬНО: обрезает и сохраняет пропорции */
+    display: block;    /* Убираем лишние отступы */
+}
+
+.track-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Play overlay - позиционирование */
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+}
+
+.track-image:hover .play-overlay {
+    opacity: 1;
+}
+
+/* Кнопка play */
+.play-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
+/* Стили для информации о треке - УПРОЩАЕМ */
+.track-info {
+    text-align: center;
+}
+
+.track-name {
+    font-size: 2em;      /* Немного уменьшаем */
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+.track-author {
+    font-size: 1.3em;    /* Немного уменьшаем */
+    font-weight: normal;
+    margin: 0;
+    color: #b3b3b3;
+}
+
+/* Кнопки действий */
+.track-actions {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.action-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background-color: #1DB954;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #1ed760;
+    transform: scale(1.05);
+}
+
+/* Аудио элемент - скрываем, так как у нас своя кнопка */
+.audio {
+    display: none; /* Скрываем стандартный аудио элемент */
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 600px) {
+    .track-page-container {
+        padding: 20px 10px;
+        min-height: 70vh;
+    }
+
+    .track-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .track-name {
+        font-size: 1.8em;
+    }
+
+    .track-author {
+        font-size: 1.1em;
+    }
+
+    .track-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+
+    .play-button {
+        width: 50px;
+        height: 50px;
+        font-size: 16px;
+    }
+}

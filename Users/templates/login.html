@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+<body>
+
+{% if user.is_authenticated %}
+<h1>Кажется, вы уже вошли в аккаунт</h1>
+    <a href="/">Вернуться на главную</a>
+{% else %}
+<h1>Войти</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p> <button type="submit">Войти</button> </p>
+</form>
+    <h2>Нет аккаунта? <a href="{% url 'register' %}">Регистрация</a></h2>
+{% endif %}
+
+
+</body>
+</html>
+
+<style>
+
+    li{
+        color: red;
+
+    }
+    body {
+        text-align: center;
+    }
+
+</style>

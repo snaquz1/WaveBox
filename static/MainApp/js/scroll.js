@@ -19,12 +19,58 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-let playButtons = document.querySelectorAll(".play-button")
-playButtons.forEach(button =>{
-    button.addEventListener("click", function (){
-        audio.play()
-    })
-})
+let currentAudio = null; // Храним текущее играющее аудио
+let currentButton = null; // Храним текущую активную кнопку
+
+let trackName = document.querySelector(".track-name")
+let trackAuthor = document.querySelector(".track-author")
+
+const playButtons = document.querySelectorAll(".play-button");
+
+playButtons.forEach(button => {
+    button.addEventListener("click", function() {
+        const trackItem = this.closest('.track-item');
+        const audioElement = trackItem.querySelector('.audio');
+
+        // Если это же аудио уже играет - ставим на паузу
+        if (currentAudio === audioElement && !audioElement.paused) {
+            audioElement.pause();
+            this.innerHTML = "▶"
+            this.classList.remove('playing');
+            currentAudio = null;
+            currentButton = null;
+            return;
+        }
+
+        // Останавливаем текущее аудио если играет другое
+        if (currentAudio && currentAudio !== audioElement) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0; // Сбрасываем на начало
+            if (currentButton) {
+                currentButton.innerHTML = "▶"
+                currentButton.classList.remove('playing');
+            }
+        }
+
+        // Запускаем новое аудио
+        audioElement.play();
+        this.innerHTML = "⏸"
+        this.classList.add('playing');
+
+        // Обновляем текущие элементы
+        currentAudio = audioElement;
+        currentButton = this;
+
+        // Обработчик окончания трека
+        audioElement.onended = function() {
+            currentButton.classList.remove('playing');
+            currentButton.innerHTML = "▶"
+            currentAudio = null;
+            currentButton = null;
+
+        };
+    });
+});
 
 
 
