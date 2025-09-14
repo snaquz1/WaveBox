@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentAudio = null
 let currentButton = null
 let seekUpdate = null
+let volume = null
+let volumeImage = document.querySelector(".volume-image")
 function playTrack(button){
     let playOverlay = button.closest(".play-overlay")
     let audio = playOverlay.querySelector(".audio")
@@ -57,6 +59,7 @@ function playTrack(button){
     currentAudio = audio
     currentButton = button
 
+    audio.volume = volume
     audio.play()
     startSeekUpdate()
 
@@ -141,4 +144,32 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    let volumeSlider = document.querySelector(".simple-volume-slider")
+    volume = volumeSlider.value / 100
+    if (volumeSlider){
+        volumeSlider.addEventListener("input", function (){
+            if (currentAudio){
+                volume = volumeSlider.value / 100
+                currentAudio.volume = volume
+                if (volume === 0){
+                    volumeImage.src = "/media/images/icons/novolume.png"
+                }else {
+                    volumeImage.src = "/media/images/icons/volume.png"
+                }
+            }
+        })
+    }
+
+    const volumeButton = document.querySelector(".volume-button")
+    volumeButton.addEventListener("click", function (){
+        setGlobalVolume(volumeSlider, 0)
+        volumeImage.src = "/media/images/icons/novolume.png"
+    })
 });
+
+function setGlobalVolume(slider, value){
+    volume = value;
+    slider.value = value;
+    currentAudio.volume = value;
+}
