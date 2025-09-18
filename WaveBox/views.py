@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
+from Users.models import CustomUser
 
 
 
@@ -19,8 +20,10 @@ def track(request, track_id):
     track = Track.objects.get(pk=track_id)
     return render(request, 'track.html', {"track": track})
 
-def player(request):
-    return render(request, 'player.html')
+@login_required
+def profile(request, username):
+    user = CustomUser.objects.get(username=username)
+    return render(request, "profile.html", {"user": user})
 
 
 

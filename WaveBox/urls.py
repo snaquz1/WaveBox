@@ -7,5 +7,6 @@ urlpatterns = [
     path("", main, name="main" ),
     path("discover", discover, name="discover"),
     path("track/<int:track_id>", track, name="track" ),
-    path("player", player, name="player" ),
+    path("profile/<str:username>", profile, name="profile"),
+
 ]
