@@ -8,5 +8,7 @@ urlpatterns = [
     path("discover", discover, name="discover"),
     path("track/<int:track_id>", track, name="track" ),
     path("profile/<str:username>", profile, name="profile"),
+    path("liketrack/<int:track_id>", like_track, name="like_track"),
+    path("library", library, name="library"),
 
 ]

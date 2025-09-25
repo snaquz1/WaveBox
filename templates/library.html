@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Discover the top streamed music and songs online on WaveBox{% endblock %}
+{% block title %}Библиотека{% endblock %}
 {% block head %}
-      <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
 {% endblock %}
 {% block body %}
-<main>
-<section class="tracks-section">
+    <section class="tracks-section">
     <h2>Popular now</h2>
     <div class="tracks-container">
         <div class="tracks-wrapper">
-            {% for t in Tracks %}
+            {% for t in liked_tracks %}
             <div class="track-item">
                 <div class="track-image">
                     <a href="/track/{{ t.id }}">
@@ -20,7 +19,7 @@
                         <button data-track-id="{{ t.id }}" data-track-name="{{ t.name }}" data-track-author="{{ t.author }}"
                                 data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
                                 class="play-button" onclick="playTrack(this)">▶</button>
-                        
+
                         <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                     </div>
                 </div>
@@ -36,9 +35,4 @@
         <button class="scroll-button prev">‹</button>
     </div>
 </section>
-</div>
-</main>
-{% endblock %}
-{% block script %}
-    <script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
 {% endblock %}
