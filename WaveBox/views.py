@@ -19,7 +19,7 @@ def discover(request):
 def track(request, track_id):
     track = Track.objects.get(pk=track_id)
     return render(request, 'track.html', {"track": track})
-
+@login_required()
 def library(request):
     liked_tracks = Track.objects.filter(liked_by=request.user)
     return render(request, 'library.html', {'liked_tracks': liked_tracks})

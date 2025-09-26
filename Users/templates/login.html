@@ -5,11 +5,16 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="POST">
+{% if user.is_authenticated %}
+    <h1>Кажется, вы уже вошли в аккаунт <a href="/">На главную</a></h1>
+    {% else %}
+        <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit">
     </form>
 <a href="/signup">Нет аккаунта</a>
+{% endif %}
+
 </body>
 </html>
