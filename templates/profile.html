@@ -4,3 +4,14 @@
       <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
 {% endblock %}
 {% block title %}Профиль {{ user.username }}{% endblock %}
+{% block body %}
+    <div class="user-data">
+    {% if user.avatar %}
+        <img width="500" height="500" src="{{ user.avatar.url }}">
+    {% endif %}
+        
+        <h2>{{ user.username }}</h2>
+        <a href="/logout">Logout</a>
+    </div>
+
+{% endblock %}

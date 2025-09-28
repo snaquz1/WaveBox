@@ -1,6 +1,9 @@
+import random
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
+from .forms import TrackUploadForm
 from .models import *
 from Users.models import CustomUser
 
@@ -13,12 +16,15 @@ def main(request):
 
 
 def discover(request):
-    Tracks = Track.objects.all()
+    Tracks = Track.objects.annotate(
+        like_count=Count("liked_by")
+    )
+    Tracks = Tracks.order_by("-like_count")
     return render(request, 'discover.html', {'Tracks': Tracks})
 
 def track(request, track_id):
     track = Track.objects.get(pk=track_id)
-    return render(request, 'track.html', {"track": track})
+    return render(request, 'track.html', {"t": track})
 @login_required()
 def library(request):
     liked_tracks = Track.objects.filter(liked_by=request.user)
@@ -38,7 +44,23 @@ def like_track(request, track_id):
     else:
         track.liked_by.add(request.user)
         liked = True
-    return JsonResponse({"liked": liked})
+    like_count = track.like_count()
+    return JsonResponse({"liked": liked, "like_count": like_count})
+
+def upload(request):
+    if request.method == "POST":
+        form = TrackUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            Track.objects.create(
+                name=form.cleaned_data["name"],
+                author=request.user.username,
+                audiofile=form.cleaned_data["audiofile"],
+                image=form.cleaned_data["image"],
+            ).save()
+            return redirect("/")
+
+    form = TrackUploadForm()
+    return render(request, "upload.html", {"form": form})
 
 
 

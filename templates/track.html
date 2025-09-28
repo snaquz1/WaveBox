@@ -12,16 +12,19 @@
         <div class="track-player">
             <div class="track-item">
                 <div class="track-image">
-                        <img src="{{ track.image.url }}">
+                        <img src="{{ t.image.url }}">
                     <div class="play-overlay">
-                        <button data-track-name="{{ track.name }}" data-track-author="{{ track.author }}" class="play-button" onclick="playTrack(this)">▶</button>
-                        <audio class="audio" src="{{ track.audiofile.url }}"></audio>
+                        <button data-track-id="{{ t.id }}" data-track-name="{{ t.name }}" data-track-author="{{ t.author }}"
+                                data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
+                                data-likes-count="{{ t.like_count }}"
+                                class="play-button" onclick="playTrack(this)">▶</button>
+                        <audio class="audio" src="{{ t.audiofile.url }}"></audio>
                     </div>
                 </div>
 
                 <div class="track-info">
-                    <h3 class="track-name">{{ track.name }}</h3>
-                    <h3 class="track-author">{{ track.author }}</h3>
+                    <h3 class="track-name">{{ t.name }}</h3>
+                    <h3 class="track-author">{{ t.author }}</h3>
                 </div>
             </div>
             <div class="track-actions">
@@ -31,6 +34,6 @@
         </div>
     </div>
 {% block script %}
-    <script src="{% static "MainApp/js/audioandscroll.js" %}"></script>
+    <script src="{% static "MainApp/js/track.js" %}"></script>
 {% endblock %}
 {% endblock %}

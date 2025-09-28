@@ -18,6 +18,7 @@
                     <div class="play-overlay">
                         <button data-track-id="{{ t.id }}" data-track-name="{{ t.name }}" data-track-author="{{ t.author }}"
                                 data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
+                                data-likes-count="{{ t.like_count }}"
                                 class="play-button" onclick="playTrack(this)">▶</button>
 
                         <audio class="audio" src="{{ t.audiofile.url }}"></audio>

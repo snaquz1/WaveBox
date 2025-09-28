@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from django.urls import path
 from .views import *
@@ -10,5 +11,6 @@ urlpatterns = [
     path("profile/<str:username>", profile, name="profile"),
     path("liketrack/<int:track_id>", like_track, name="like_track"),
     path("library", library, name="library"),
+    path("upload", upload, name="upload"),
 
 ]

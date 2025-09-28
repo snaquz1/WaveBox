@@ -25,6 +25,7 @@ let seekUpdate = null
 let volume = null
 let volumeImage = document.querySelector(".volume-image")
 let currentAudioId = null
+let likesCount = document.querySelector(".likes-count")
 function playTrack(button){
     let playOverlay = button.closest(".play-overlay")
     let audio = playOverlay.querySelector(".audio")
@@ -61,6 +62,8 @@ function playTrack(button){
     currentButton = button
     currentAudioId = button.getAttribute("data-track-id")
     check_liked()
+
+    likesCount.textContent = button.getAttribute("data-likes-count")
 
     audio.volume = volume
     audio.play()
@@ -177,11 +180,12 @@ function setGlobalVolume(slider, value){
     currentAudio.volume = value;
 }
 
-function check_liked(){
+function check_liked(newLikesCount){
     if (currentButton.getAttribute("data-liked") === "true"){
         likeButton.textContent = "❤️"
     }else {
         likeButton.textContent = "❤"
     }
+    likesCount.textContent = newLikesCount;
 
 }

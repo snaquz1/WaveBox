@@ -24,6 +24,7 @@
     </a>
     </div>
     </header>
+
 {% block body %}{% endblock %}
 <div class="player">
     <div class="player-info">
@@ -32,7 +33,7 @@
     </div>
     
     <div class="player-controls">
-        <button class="control-btn like-btn">❤</button>
+        <button class="control-btn like-btn">❤</button><h2 class="likes-count"></h2>
         <button class="control-btn prev-btn">⏮</button>
         <button class="player-button play-btn" onclick="playerPlayTrack(this)">▶</button>
         <button class="control-btn next-btn">⏭</button>
