@@ -1,0 +1,25 @@
+.tracks-wrapper-library {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    justify-content: center;
+}
+
+.tracks-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.tracks-section-library {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.tracks-section-library h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}

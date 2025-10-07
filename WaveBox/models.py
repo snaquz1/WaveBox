@@ -18,6 +18,7 @@ class Track(models.Model):
         settings.AUTH_USER_MODEL,
         blank=True,
     )
+    sections = models.ManyToManyField("Section", blank=True, default=["Popular now"])
 
 
     def __str__(self):
@@ -25,6 +26,15 @@ class Track(models.Model):
 
     def like_count(self):
         return self.liked_by.count()
+
+class Section(models.Model):
+    name = models.CharField(max_length=100)
+    tracks = models.ManyToManyField("Track", blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 
 
 

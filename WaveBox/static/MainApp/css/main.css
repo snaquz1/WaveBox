@@ -369,7 +369,22 @@ body{
 .track-image:hover .play-overlay {
     opacity: 1; /* Делаем overlay полностью видимым */
 }
+.track-info{
+    display: flex;
+    flex-direction: column;
+}
 
+.track-name{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+.track-author{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
 
 
 

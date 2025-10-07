@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+{% endblock %}
+{% block body %}
+    {% for section in sections %}
+    <section class="tracks-section">
+        <h2>{{ section.name }}</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for track in section.tracks.all %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/track/{{ track.id }}">
+                            <img src="{{ track.image.url }}" width="300" height="250">
+                        </a>
+                        <div class="play-overlay">
+                            <button data-track-id="{{ track.id }}"
+                                    data-track-name="{{ track.name }}"
+                                    data-track-author="{{ track.author }}"
+                                    data-liked="{% if user in track.liked_by.all %}true{% else %}false{% endif %}"
+                                    data-likes-count="{{ track.like_count }}"
+                                    class="play-button" onclick="playTrack(this)">▶</button>
+                            <audio class="audio" src="{{ track.audiofile.url }}"></audio>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <h3 class="track-name">{{ track.name }}</h3>
+                        <h3 class="track-author">{{ track.author }}</h3>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
+        </div>
+    </section>
+    {% endfor %}
+{% endblock %}

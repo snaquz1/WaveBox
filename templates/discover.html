@@ -2,41 +2,42 @@
 {% load static %}
 {% block title %}Discover the top streamed music and songs online on WaveBox{% endblock %}
 {% block head %}
-      <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
 {% endblock %}
 {% block body %}
 <main>
-<section class="tracks-section">
-    <h2>Popular now</h2>
-    <div class="tracks-container">
-        <div class="tracks-wrapper">
-            {% for t in Tracks %}
-            <div class="track-item">
-                <div class="track-image">
-                    <a href="/track/{{ t.id }}">
-                        <img src="{{ t.image.url }}" width="300" height="250">
+    {% for section in sections %}
+    <section class="tracks-section">
+        <h2>{{ section.name }}</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for track in section.tracks.all %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/track/{{ track.id }}">
+                            <img src="{{ track.image.url }}" width="300" height="250">
                         </a>
-                    <div class="play-overlay">
-                        <button data-track-id="{{ t.id }}" data-track-name="{{ t.name }}" data-track-author="{{ t.author }}"
-                                data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
-                                data-likes-count="{{ t.like_count }}"
-                                class="play-button" onclick="playTrack(this)">▶</button>
-
-                        <audio class="audio" src="{{ t.audiofile.url }}"></audio>
+                        <div class="play-overlay">
+                            <button data-track-id="{{ track.id }}"
+                                    data-track-name="{{ track.name }}"
+                                    data-track-author="{{ track.author }}"
+                                    data-liked="{% if user in track.liked_by.all %}true{% else %}false{% endif %}"
+                                    data-likes-count="{{ track.like_count }}"
+                                    class="play-button" onclick="playTrack(this)">▶</button>
+                            <audio class="audio" src="{{ track.audiofile.url }}"></audio>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <a href="/track/{{ track.id }}" class="track-name">{{ track.name|truncatechars:20 }}</a>
+                        <a href="/profile/{{ track.author }}" class="track-author">{{ track.author }}</a>
                     </div>
                 </div>
-
-                <div class="track-info">
-                    <h3 class="track-name">{{ t.name }}</h3>
-                    <h3 class="track-author">{{ t.author }}</h3>
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
         </div>
-        <button class="scroll-button next">›</button>
-        <button class="scroll-button prev">‹</button>
-    </div>
-</section>
+    </section>
+    {% endfor %}
 </div>
 </main>
 {% endblock %}

@@ -1,6 +1,6 @@
 import random
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TrackUploadForm
@@ -10,17 +10,27 @@ from Users.models import CustomUser
 
 
 # Create your views here.
+def test(request):
+    sections = Section.objects.prefetch_related("tracks").all()
+    return render(request, "test.html", {"sections": sections})
+
 
 def main(request):
     return redirect("discover")
 
 
 def discover(request):
-    Tracks = Track.objects.annotate(
+    tracks = Track.objects.annotate(
         like_count=Count("liked_by")
+    ).order_by("-like_count")
+
+    sections = Section.objects.prefetch_related(
+        Prefetch(
+            "tracks", queryset=tracks
+        )
     )
-    Tracks = Tracks.order_by("-like_count")
-    return render(request, 'discover.html', {'Tracks': Tracks})
+
+    return render(request, 'discover.html', {'Tracks': tracks, "sections": sections})
 
 def track(request, track_id):
     track = Track.objects.get(pk=track_id)
@@ -51,16 +61,28 @@ def upload(request):
     if request.method == "POST":
         form = TrackUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            Track.objects.create(
+            track = Track.objects.create(
                 name=form.cleaned_data["name"],
                 author=request.user.username,
                 audiofile=form.cleaned_data["audiofile"],
                 image=form.cleaned_data["image"],
-            ).save()
+            )
+            track.sections.add(Section.objects.get(name="Popular now"))
+            Section.objects.get(name="Popular now").tracks.add(track)
+            track.save()
             return redirect("/")
 
     form = TrackUploadForm()
     return render(request, "upload.html", {"form": form})
+
+def search(request, query):
+    tracks = Track.objects.filter(
+        Q(name__icontains=query) | Q(author__icontains=query)
+    )
+    return render(request, "search.html", {"tracks": tracks, "query": query})
+
+
+
 
 
 

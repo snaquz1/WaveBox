@@ -2,13 +2,13 @@
 {% load static %}
 {% block title %}Библиотека{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'MainApp/css/library.css' %}">
 {% endblock %}
 {% block body %}
-    <section class="tracks-section">
+    <section class="tracks-section-library">
     <h2>Liked tracks</h2>
     <div class="tracks-container">
-        <div class="tracks-wrapper">
+        <div class="tracks-wrapper-library">
             {% for t in liked_tracks %}
             <div class="track-item">
                 <div class="track-image">
@@ -32,8 +32,7 @@
             </div>
             {% endfor %}
         </div>
-        <button class="scroll-button next">›</button>
-        <button class="scroll-button prev">‹</button>
     </div>
 </section>
+
 {% endblock %}

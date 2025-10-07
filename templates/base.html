@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>{% block title %}{% endblock %}</title>
-<link rel="icon" href="/media/images/icons/WaveBoxLogo.png">
+    <link rel="icon" href="/media/images/icons/WaveBoxLogo.png"><link rel="stylesheet" href="{% static 'MainApp/css/main.css' %}">
   {% block head %}{% endblock %}
 </head>
 <body>
@@ -16,7 +16,7 @@
     <a href="/discover" class="{% if request.path == "/discover"  %}active{% endif %}">Home</a>
     <a href="/feed">Feed</a>
     <a href="/library">Library</a>
-    <input class="searchbar" type="text" placeholder="Search">
+    <input class="searchbar" type="text" placeholder="Search"><button type="submit" onclick="search()">search</button>
     <a href="/upload">Upload</a>
     <a href="{% if user.is_authenticated %}/profile/{{ request.user.username }}{% else %}/login{% endif %}" class="{% if request.path == '/profile/'|add:request.user.username %}active{% endif %}">
         {% if user.is_authenticated %}{{ request.user.username }}{% else %}Profile{% endif %}
@@ -56,5 +56,6 @@
 </body>
 <script src="{% static "MainApp/js/likes.js" %}"></script>
 <script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
+<script src="{% static "MainApp/js/searchbar.js" %}"></script>
 {% block script %}{% endblock %}
 </html>
