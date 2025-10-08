@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}{{ track.name }} - {{ track.author }}{% endblock %}
+{% block title %}{{ t.name }} - {{ t.author }}{% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static "MainApp/css/track.css" %}">
@@ -33,6 +33,5 @@
         </div>
     </div>
 {% block script %}
-    <script src="{% static "MainApp/js/track.js" %}"></script>
 {% endblock %}
 {% endblock %}

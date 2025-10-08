@@ -20,7 +20,7 @@
     <a href="/upload">Upload</a>
     <a href="{% if user.is_authenticated %}/profile/{{ request.user.username }}{% else %}/login{% endif %}" class="{% if request.path == '/profile/'|add:request.user.username %}active{% endif %}">
         {% if user.is_authenticated %}{{ request.user.username }}{% else %}Profile{% endif %}
-        <img class="user-avatar" width="50" height="50" src="{% if user.is_authenticated and user.avatar %}/media/{{ request.user.avatar }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
+        <img class="user-avatar" width="50" height="50" src="{% if user.is_authenticated and user.avatar %}{{ request.user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
     </a>
     </div>
     </header>

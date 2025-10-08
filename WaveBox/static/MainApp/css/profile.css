@@ -2,4 +2,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 25px;
+    background-color: #1e1f22;
+
+
+    .user-avatar{
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
 }
+    .edit-form{
+        background-color: #253040;
+        border-radius: 10px;
+    }
+}
+

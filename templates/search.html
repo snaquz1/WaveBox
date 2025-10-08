@@ -2,8 +2,13 @@
 {% load static %}
 {% block title %}{{ query }}{% endblock %}
 {% block body %}
+
+    {% if profiles or tracks %}
+
+
+    {% if tracks %}
 <section class="tracks-section">
-        <h2>{{ section.name }}</h2>
+        <h2>Треки, найденные по автору и названию:</h2>
         <div class="tracks-container">
             <div class="tracks-wrapper">
                 {% for t in tracks %}
@@ -33,4 +38,35 @@
             <button class="scroll-button prev">‹</button>
         </div>
     </section>
+    {% else %}
+        <h1>треков не найдено</h1>
+        {% endif %}
+
+
+    <section class="tracks-section">
+        <h2>Профили:</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for p in profiles %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/profile/{{ p.username }}">
+                            <img style="border-radius: 100px" src="{% if p.avatar %}{{ p.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}" width="300" height="250">
+                        </a>
+                    </div>
+                    <div class="track-info">
+                        <a href="/track/{{ t.id }}" class="track-name">{{ p.username }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
+        </div>
+    </section>
+
+
+    {% else %}
+        <h1>Ничего не нашли :(</h1>
+    {% endif %}
 {% endblock %}

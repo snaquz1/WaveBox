@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Prefetch, Q
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrackUploadForm
+from .forms import TrackUploadForm, AvatarChangingForm
 from .models import *
 from Users.models import CustomUser
 
@@ -42,8 +42,21 @@ def library(request):
 
 @login_required
 def profile(request, username):
+    if request.method == "POST":
+        user = get_object_or_404(CustomUser, username=request.user.username)
+        form = AvatarChangingForm(request.POST, request.FILES)
+        if form.is_valid():
+            user.avatar = form.cleaned_data["avatar"]
+            user.save()
+            return redirect(f"/profile/{request.user.username}")
+
+
+
+    form = AvatarChangingForm()
     user = CustomUser.objects.get(username=username)
-    return render(request, "profile.html", {"user": user})
+    user_tracks = Track.objects.filter(author=user.username)
+    user_liked_tracks = Track.objects.filter(liked_by=user)
+    return render(request, "profile.html", {"user": user, "form": form, "user_tracks": user_tracks, "user_liked_tracks": user_liked_tracks})
 
 @login_required
 def like_track(request, track_id):
@@ -79,7 +92,10 @@ def search(request, query):
     tracks = Track.objects.filter(
         Q(name__icontains=query) | Q(author__icontains=query)
     )
-    return render(request, "search.html", {"tracks": tracks, "query": query})
+    profiles = CustomUser.objects.filter(
+        Q(username__icontains=query)
+    )
+    return render(request, "search.html", {"tracks": tracks, "profiles": profiles, "query": query})
 
 
 

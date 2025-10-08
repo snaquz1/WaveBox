@@ -6,12 +6,94 @@
 {% block title %}Профиль {{ user.username }}{% endblock %}
 {% block body %}
     <div class="user-data">
-    {% if user.avatar %}
-        <img width="500" height="500" src="{{ user.avatar.url }}">
-    {% endif %}
-        
+        <img class="user-avatar" width="500" height="500" src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
         <h2>{{ user.username }}</h2>
-        <a href="/logout">Logout</a>
+        {% if user.username == request.user.username %}
+        <button onclick="redirectToLogut()">Logout</button>
+        <button onclick="editFormVisible()">Edit</button>
+        {% endif %}
+        <div class="edit-form" style="visibility: hidden">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">send</button>
+        </form>
+        </div>
     </div>
 
+    {% if user_tracks %}
+    <section class="tracks-section">
+        <h2>Треки от автора:</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for t in user_tracks %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/track/{{ t.id }}">
+                            <img src="{{ t.image.url }}" width="300" height="250">
+                        </a>
+                        <div class="play-overlay">
+                            <button data-track-id="{{ t.id }}"
+                                    data-track-name="{{ t.name }}"
+                                    data-track-author="{{ t.author }}"
+                                    data-liked="{% if request.user in t.liked_by.all %}true{% else %}false{% endif %}"
+                                    data-likes-count="{{ t.like_count }}"
+                                    class="play-button" onclick="playTrack(this)">▶</button>
+                            <audio class="audio" src="{{ t.audiofile.url }}"></audio>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <a href="/track/{{ t.id }}" class="track-name">{{ t.name|truncatechars:20 }}</a>
+                        <a href="/profile/{{ t.author }}" class="track-author">{{ t.author }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
+        </div>
+    </section>
+    {% else %}
+    <h1>У пользователя нет треков</h1>
+    {% endif %}
+    
+    {% if user_liked_tracks %}
+        <section class="tracks-section">
+        <h2>Лайки пользователя:</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for t in user_liked_tracks %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/track/{{ t.id }}">
+                            <img src="{{ t.image.url }}" width="300" height="250">
+                        </a>
+                        <div class="play-overlay">
+                            <button data-track-id="{{ t.id }}"
+                                    data-track-name="{{ t.name }}"
+                                    data-track-author="{{ t.author }}"
+                                    data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
+                                    data-likes-count="{{ t.like_count }}"
+                                    class="play-button" onclick="playTrack(this)">▶</button>
+                            <audio class="audio" src="{{ t.audiofile.url }}"></audio>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <a href="/track/{{ t.id }}" class="track-name">{{ t.name|truncatechars:20 }}</a>
+                        <a href="/profile/{{ t.author }}" class="track-author">{{ t.author }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
+        </div>
+    </section>
+    {% else %}
+        <h1>Пользователь не ставил лайки</h1>
+    {% endif %}
+
+{% endblock %}
+{% block script %}
+    <script src="{% static "MainApp/js/profile.js" %}"></script>
 {% endblock %}
