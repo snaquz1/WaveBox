@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="track-info">
-                    <h3 class="track-name">{{ t.name|truncatechars:25 }}</h3>
-                    <h3 class="track-author">{{ t.author }}</h3>
+                    <a href="/track/{{ t.id }}" class="track-name">{{ t.name|truncatechars:20 }}</a>
+                    <a href="/profile/{{ t.author }}" class="track-author">{{ t.author }}</a>
                 </div>
             </div>
             {% endfor %}

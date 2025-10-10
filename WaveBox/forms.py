@@ -1,7 +1,7 @@
 from django import forms
 
 from Users.models import CustomUser
-from WaveBox.models import Track
+from WaveBox.models import Track, Comment
 
 
 class TrackUploadForm(forms.ModelForm):
@@ -13,4 +13,9 @@ class AvatarChangingForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ("avatar",)
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ("text",)
 

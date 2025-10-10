@@ -34,6 +34,15 @@ class Section(models.Model):
     def __str__(self):
         return self.name
 
+class Comment(models.Model):
+    track = models.ForeignKey("Track", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.track}-{self.text}"
+
 
 
 

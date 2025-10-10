@@ -32,6 +32,43 @@
             </div>
         </div>
     </div>
+
+     <!-- Секция комментариев -->
+        <div class="comment-section">
+            <h3>Комментарии ({{ comments|length }})</h3>
+            {% for c in comments %}
+                <div class="comment">
+                <div class="avatar-username">
+                    <div class="comment-avatar"><a href="/profile/{{ c.user.username }}"><img class="user-avatar" width="150px" height="150" src="{% if c.user.avatar %}{{ c.user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}"></a></div>
+                    <div><a class="username" href="/profile/{{ c.user.username }}">{{ c.user.username }}
+                    </a>
+                    <div class="comment-meta">
+                        <span class="comment-date">{{ c.date|date:"d.m.Y H:i" }}</span>
+                    </div>
+                    </div>
+                </div>
+
+                    <div class="comment-text">{{ c.text }}</div>
+                </div>
+            {% empty %}
+                <p class="no-comments">Пока нет комментариев. Будьте первым!</p>
+            {% endfor %}
+        
+            {% if user.is_authenticated %}
+    <div class="add-comment-section">
+        <form method="post" class="comment-form">
+            {% csrf_token %}
+            <textarea name="text" placeholder="Оставьте ваш комментарий..." required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+    {% endif %}
+        </div>
+    
+
+
+<input class="comment-wrote" type="hidden" value="{{ comment_wrote }}">
 {% block script %}
+    <script src="{% static "MainApp/js/commentscroll.js" %}"></script>
 {% endblock %}
 {% endblock %}

@@ -68,5 +68,38 @@
 
     {% else %}
         <h1>Ничего не нашли :(</h1>
+        <section class="tracks-section">
+        <h2>Вам может понравиться:</h2>
+        <div class="tracks-container">
+            <div class="tracks-wrapper">
+                {% for t in random_recs %}
+                <div class="track-item">
+                    <div class="track-image">
+                        <a href="/track/{{ t.id }}">
+                            <img src="{{ t.image.url }}" width="300" height="250">
+                        </a>
+                        <div class="play-overlay">
+                            <button data-track-id="{{ t.id }}"
+                                    data-track-name="{{ t.name }}"
+                                    data-track-author="{{ t.author }}"
+                                    data-liked="{% if user in t.liked_by.all %}true{% else %}false{% endif %}"
+                                    data-likes-count="{{ t.like_count }}"
+                                    class="play-button" onclick="playTrack(this)">▶</button>
+                            <audio class="audio" src="{{ t.audiofile.url }}"></audio>
+                        </div>
+                    </div>
+                    <div class="track-info">
+                        <a href="/track/{{ t.id }}" class="track-name">{{ t.name|truncatechars:20 }}</a>
+                        <a href="/profile/{{ t.author }}" class="track-author">{{ t.author }}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="scroll-button next">›</button>
+            <button class="scroll-button prev">‹</button>
+        </div>
+    </section>
+        
+        
     {% endif %}
 {% endblock %}

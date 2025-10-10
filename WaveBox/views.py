@@ -1,12 +1,15 @@
 import random
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Prefetch, Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrackUploadForm, AvatarChangingForm
+from .forms import TrackUploadForm, AvatarChangingForm, CommentForm
 from .models import *
 from Users.models import CustomUser
 
+
+def generate_random_recs():
+    return Track.objects.all().order_by("?")[:7]
 
 
 # Create your views here.
@@ -33,8 +36,30 @@ def discover(request):
     return render(request, 'discover.html', {'Tracks': tracks, "sections": sections})
 
 def track(request, track_id):
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            Comment.objects.create(
+                text=form.cleaned_data["text"],
+                track=Track.objects.get(pk=track_id),
+                user=request.user,
+            ).save()
+            request.session["comment_wrote"] = True
+            return redirect(f"/track/{track_id}")
+
+
+
+    comments = Comment.objects.filter(track_id=track_id).order_by("-date")
     track = Track.objects.get(pk=track_id)
-    return render(request, 'track.html', {"t": track})
+    form = CommentForm
+    if request.session.get("comment_wrote"):
+        del request.session["comment_wrote"]
+        comment_wrote = True
+    else:
+        comment_wrote = False
+    return render(request, 'track.html', {"t": track, "comments": comments, "form": form, "comment_wrote": comment_wrote})
+
+
 @login_required()
 def library(request):
     liked_tracks = Track.objects.filter(liked_by=request.user)
@@ -95,7 +120,9 @@ def search(request, query):
     profiles = CustomUser.objects.filter(
         Q(username__icontains=query)
     )
-    return render(request, "search.html", {"tracks": tracks, "profiles": profiles, "query": query})
+    random_recs = generate_random_recs()
+    return render(request, "search.html", {"tracks": tracks, "profiles": profiles, "query": query, "random_recs": random_recs})
+
 
 
 

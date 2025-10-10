@@ -379,11 +379,18 @@ body{
     color: white;
     font-size: 20px;
 }
+.track-name:hover{
+    color: gray;
+}
 
 .track-author{
     text-decoration: none;
     color: white;
     font-size: 20px;
+}
+
+.track-author:hover{
+    color: gray;
 }
 
 
