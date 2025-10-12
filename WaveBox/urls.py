@@ -13,5 +13,6 @@ urlpatterns = [
     path("library", library, name="library"),
     path("upload", upload, name="upload"),
     path("search/<str:query>", search, name="search"),
+    path("chat/<str:username>", chat, name="chat"),
 
 ]

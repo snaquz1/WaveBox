@@ -1,9 +1,9 @@
 import random
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Prefetch, Q
+from django.db.models import Count, Prefetch, Q, Case, When, CharField
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import TrackUploadForm, AvatarChangingForm, CommentForm
+from .forms import TrackUploadForm, AvatarChangingForm, CommentForm, MessageForm
 from .models import *
 from Users.models import CustomUser
 
@@ -81,7 +81,14 @@ def profile(request, username):
     user = CustomUser.objects.get(username=username)
     user_tracks = Track.objects.filter(author=user.username)
     user_liked_tracks = Track.objects.filter(liked_by=user)
-    return render(request, "profile.html", {"user": user, "form": form, "user_tracks": user_tracks, "user_liked_tracks": user_liked_tracks})
+    if username == request.user.username:
+        user_chats = Chat.objects.filter(
+            Q(user1=request.user) | Q(user2=request.user)
+        ).select_related('user1', 'user2')
+    else:
+        user_chats = None
+
+    return render(request, "profile.html", {"user": user, "form": form, "user_tracks": user_tracks, "user_liked_tracks": user_liked_tracks, "user_chats": user_chats})
 
 @login_required
 def like_track(request, track_id):
@@ -122,6 +129,32 @@ def search(request, query):
     )
     random_recs = generate_random_recs()
     return render(request, "search.html", {"tracks": tracks, "profiles": profiles, "query": query, "random_recs": random_recs})
+
+def chat(request, username):
+    user2 = get_object_or_404(CustomUser, username=username)
+    try:
+        chat = Chat.objects.get(
+            Q(user1=request.user, user2=user2) |
+            Q(user1=user2, user2=request.user)
+        )
+    except Chat.DoesNotExist:
+       chat = Chat.objects.create(
+            user1=request.user,
+            user2=user2,
+        )
+
+    if request.method == "POST":
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            message = Message.objects.create(
+                chat=chat,
+                text=form.cleaned_data["text"],
+                sender=request.user,
+            ).save()
+
+    messages = Message.objects.filter(chat=chat)
+    form = MessageForm()
+    return render(request, "chat.html", {"chat": chat, "messages": messages, "form": form, "username": username})
 
 
 

@@ -4,3 +4,5 @@ from .models import *
 admin.site.register(Track)
 admin.site.register(Section)
 admin.site.register(Comment)
+admin.site.register(Chat)
+admin.site.register(Message)

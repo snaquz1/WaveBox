@@ -9,9 +9,39 @@
         <img class="user-avatar" width="500" height="500" src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
         <h2>{{ user.username }}</h2>
         {% if user.username == request.user.username %}
-        <button onclick="redirectToLogut()">Logout</button>
+        <a href="/logout"><button>Logout</button></a>
         <button onclick="editFormVisible()">Edit</button>
+            {% else %}
+            <a href="/chat/{{ user.username }}"><button>Chat</button></a>
         {% endif %}
+
+        
+        
+<div class="chats-list">
+    {% for c in user_chats %}
+        <div class="chat-item">
+            <div class="chat-avatar">
+                {% if c.user1 == request.user %}
+                    <img src="{{ c.user2.avatar.url }}" alt="{{ c.user2.username }}">
+                {% else %}
+                    <img src="{{ c.user1.avatar.url }}" alt="{{ c.user1.username }}">
+                {% endif %}
+            </div>
+            <div class="chat-info">
+                {% if c.user1 == request.user %}
+                    <a href="/chat/{{ c.user2.username }}" class="chat-link">{{ c.user2.username }}</a>
+                {% else %}
+                    <a href="/chat/{{ c.user1.username }}" class="chat-link">{{ c.user1.username }}</a>
+                {% endif %}
+                <div class="last-message">Последнее сообщение...</div>
+            </div>
+            <div class="chat-time">10:30</div>
+        </div>
+    {% endfor %}
+</div>
+        
+
+        
         <div class="edit-form" style="visibility: hidden">
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
