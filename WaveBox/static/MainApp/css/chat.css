@@ -250,3 +250,8 @@ body {
 .send-button:hover {
     background-color: #1565c0;
 }
+
+.username{
+    color: white;
+    text-decoration: none;
+}
