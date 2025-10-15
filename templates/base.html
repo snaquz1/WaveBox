@@ -54,8 +54,18 @@
 </div>
 </div>
 </body>
+<!-- В конце body, перед закрывающим тегом -->
+<div id="global-player" style="display: none;">
+    <audio class="audio" id="global-audio"></audio>
+    <div class="play-overlay">
+        <button class="global-play-btn" data-track-id="" data-track-name="" data-track-author="" data-likes-count="0" data-liked="false">
+            ▶
+        </button>
+    </div>
+</div>
 <script src="{% static "MainApp/js/likes.js" %}"></script>
 <script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
 <script src="{% static "MainApp/js/searchbar.js" %}"></script>
+<script src="{% static "MainApp/js/saveplayerstate.js" %}"></script>
 {% block script %}{% endblock %}
 </html>
