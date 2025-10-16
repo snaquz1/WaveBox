@@ -8,6 +8,14 @@ body{
     position: relative;
 }
 
+img{
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
 .header{
     background-color: #121212;
     padding: 15px 0;

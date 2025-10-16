@@ -15,9 +15,9 @@
     <div class="nav-panel">
     <a href="/discover" class="{% if request.path == "/discover"  %}active{% endif %}">Home</a>
     <a href="/feed">Feed</a>
-    <a href="/library">Library</a>
+    <a href="/library" class="{% if request.path == "/library"  %}active{% endif %}">Library</a>
     <input class="searchbar" type="text" placeholder="Search"><button type="submit" onclick="search()">search</button>
-    <a href="/upload">Upload</a>
+    <a href="/upload" class="{% if request.path == "/upload"  %}active{% endif %}">Upload</a>
     <a href="{% if user.is_authenticated %}/profile/{{ request.user.username }}{% else %}/login{% endif %}" class="{% if request.path == '/profile/'|add:request.user.username %}active{% endif %}">
         {% if user.is_authenticated %}{{ request.user.username }}{% else %}Profile{% endif %}
         <img class="user-avatar" width="50" height="50" src="{% if user.is_authenticated and request.user.avatar %}{{ request.user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">

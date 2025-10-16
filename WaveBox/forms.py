@@ -12,7 +12,21 @@ class TrackUploadForm(forms.ModelForm):
 class AvatarChangingForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ("avatar",)
+        fields = ("avatar", "bio",)
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data.get("avatar")
+        if not avatar:
+            # если пользователь не загрузил новый — вернуть старый
+            return self.instance.avatar
+        return avatar
+
+    def clean_bio(self):
+        bio = self.cleaned_data.get("bio")
+        if bio in [None, ""]:
+            # если пользователь оставил пустым — вернуть старый текст
+            return self.instance.bio
+        return bio
 
 class CommentForm(forms.ModelForm):
     class Meta:

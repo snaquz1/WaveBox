@@ -46,9 +46,6 @@ def track(request, track_id):
             ).save()
             request.session["comment_wrote"] = True
             return redirect(f"/track/{track_id}")
-
-
-
     comments = Comment.objects.filter(track_id=track_id).order_by("-date")
     track = Track.objects.get(pk=track_id)
     form = CommentForm
@@ -69,14 +66,10 @@ def library(request):
 def profile(request, username):
     if request.method == "POST":
         user = get_object_or_404(CustomUser, username=request.user.username)
-        form = AvatarChangingForm(request.POST, request.FILES)
+        form = AvatarChangingForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
-            user.avatar = form.cleaned_data["avatar"]
-            user.save()
+            form.save()
             return redirect(f"/profile/{request.user.username}")
-
-
-
     form = AvatarChangingForm()
     user = CustomUser.objects.get(username=username)
     user_tracks = Track.objects.filter(author=user.username)

@@ -8,14 +8,21 @@
 
     .user-avatar{
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 175px;
+    height: 175px;
 }
     .edit-form{
         background-color: #253040;
         border-radius: 10px;
     }
 }
+
+.username-and-bio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 .chats-list {
     position: fixed;

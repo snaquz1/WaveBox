@@ -6,8 +6,11 @@
 {% block title %}Профиль {{ user.username }}{% endblock %}
 {% block body %}
     <div class="user-data">
-        <img class="user-avatar" width="500" height="500" src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
+        <img class="user-avatar" width="700" height="700" src="{% if user.avatar %}{{ user.avatar.url }}{% else %}/media/images/user_avatars/noavatar.png{% endif %}">
+    <div class="username-and-bio">
         <h2>{{ user.username }}</h2>
+        <p class="bio">{% if user.bio %}{{ user.bio }}{% else %}no bio yet{% endif %}</p>
+    </div>
         {% if user.username == request.user.username %}
         <a href="/logout"><button>Logout</button></a>
         <button onclick="editFormVisible()">Edit</button>
