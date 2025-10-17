@@ -64,13 +64,13 @@ def library(request):
 
 @login_required
 def profile(request, username):
+    user = get_object_or_404(CustomUser, username=request.user.username)
     if request.method == "POST":
-        user = get_object_or_404(CustomUser, username=request.user.username)
         form = AvatarChangingForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
             return redirect(f"/profile/{request.user.username}")
-    form = AvatarChangingForm()
+    form = AvatarChangingForm(initial={"bio": user.bio})
     user = CustomUser.objects.get(username=username)
     user_tracks = Track.objects.filter(author=user.username)
     user_liked_tracks = Track.objects.filter(liked_by=user)

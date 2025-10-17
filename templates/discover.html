@@ -1,20 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Discover the top streamed music and songs online on WaveBox{% endblock %}
+
 {% block head %}
+<link rel="stylesheet" href="{% static 'MainApp/css/discover.css' %}">
+<link rel="stylesheet" href="{% static "MainApp/css/gradient.css" %}">
 {% endblock %}
+
 {% block body %}
-<main>
+<main class="discover-page">
     {% for section in sections %}
     <section class="tracks-section">
-        <h2>{{ section.name }}</h2>
+        <div class="section-header">
+            <h2>{{ section.name }}</h2>
+            <div class="gradient-line"></div>
+        </div>
+
         <div class="tracks-container">
+            <button class="scroll-button prev">‹</button>
+
             <div class="tracks-wrapper">
                 {% for track in section.tracks.all %}
                 <div class="track-item">
                     <div class="track-image">
                         <a href="/track/{{ track.id }}">
-                            <img src="{{ track.image.url }}" width="300" height="250">
+                            <img src="{{ track.image.url }}" alt="{{ track.name }}">
                         </a>
                         <div class="play-overlay">
                             <button data-track-id="{{ track.id }}"
@@ -22,7 +32,9 @@
                                     data-track-author="{{ track.author }}"
                                     data-liked="{% if user in track.liked_by.all %}true{% else %}false{% endif %}"
                                     data-likes-count="{{ track.like_count }}"
-                                    class="play-button" onclick="playTrack(this)">▶</button>
+                                    class="play-button" onclick="playTrack(this)">
+                                ▶
+                            </button>
                             <audio class="audio" src="{{ track.audiofile.url }}"></audio>
                         </div>
                     </div>
@@ -33,14 +45,14 @@
                 </div>
                 {% endfor %}
             </div>
+
             <button class="scroll-button next">›</button>
-            <button class="scroll-button prev">‹</button>
         </div>
     </section>
     {% endfor %}
-</div>
 </main>
 {% endblock %}
+
 {% block script %}
-    <script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
+<script src="{% static 'MainApp/js/audioandscroll.js' %}"></script>
 {% endblock %}
