@@ -1,10 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static "Users/css/login.css" %}">
 </head>
 <body>
+<div class="neon-bg"></div>
+<div class="neon-bg"></div>
 {% if user.is_authenticated %}
     <h1>Кажется, вы уже вошли в аккаунт <a href="/">На главную</a></h1>
     {% else %}

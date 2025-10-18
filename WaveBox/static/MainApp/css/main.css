@@ -1,7 +1,11 @@
 body{
     background-color: #121212;
     color: white;
+    background: radial-gradient(circle at 20% 20%, #121212 0%, #0b0b0b 100%);
+    font-family: 'Inter', 'Poppins', sans-serif;
+    letter-spacing: 0.3px;
 }
+
 
 .logo{
     z-index: 1001;

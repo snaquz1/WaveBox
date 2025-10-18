@@ -1,0 +1,240 @@
+/* === Основные цвета неоновой палитры === */
+:root {
+    --bg-dark: #121212;
+    --accent-purple: #8b5cf6; /* фиолетовый неон */
+    --accent-green: #22d3ee; /* электрический голубой */
+    --accent-lime: #7effa9; /* лаймово-зелёный */
+    --text-gray: #b3b3b3;
+}
+
+/* === Базовые стили === */
+body {
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    transition: background 1s ease;
+}
+
+a {
+    text-decoration: none;
+    transition: color 0.4s ease, text-shadow 0.4s ease;
+}
+
+img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+/* === HEADER === */
+.header {
+    background-color: #121212;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.25);
+    backdrop-filter: blur(10px);
+    transition: box-shadow 0.5s ease;
+}
+
+.header a {
+    font-size: 175%;
+    margin-left: 15px;
+    color: gray;
+    transition: color 0.5s ease, text-shadow 0.4s ease;
+}
+
+.header a:hover {
+    color: var(--accent-green);
+    text-shadow: 0 0 8px var(--accent-green);
+}
+
+.header a.active {
+    color: var(--accent-purple);
+    text-shadow: 0 0 10px var(--accent-purple);
+}
+
+/* === АВАТАР === */
+.user-avatar {
+    border: solid 2px white;
+    border-radius: 100px;
+    box-shadow: 0 0 15px rgba(34, 211, 238, 0.5);
+    transition: box-shadow 0.4s ease;
+}
+
+.user-avatar:hover {
+    box-shadow: 0 0 25px var(--accent-purple);
+}
+
+/* === ПЛЕЕР === */
+.player {
+
+}
+
+/* === Ползунки === */
+
+
+.simple-seek-slider::-webkit-slider-thumb,
+.simple-volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    box-shadow: 0 0 10px var(--accent-green);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.simple-seek-slider::-webkit-slider-thumb:hover,
+.simple-volume-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 15px var(--accent-purple);
+}
+
+/* === Информация о треке === */
+.track-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: #fff;
+    text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+}
+
+.artist-name {
+    color: var(--text-gray);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* === Кнопки управления === */
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text-gray);
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.control-btn:hover {
+    color: var(--accent-green);
+    text-shadow: 0 0 10px var(--accent-green);
+}
+
+.player-button {
+    background: linear-gradient(145deg, var(--accent-purple), var(--accent-green));
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.6);
+}
+
+.player-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
+}
+
+/* === Прогресс === */
+.progress {
+    background: linear-gradient(90deg, var(--accent-purple), var(--accent-green), var(--accent-lime));
+    border-radius: 2px;
+    height: 100%;
+    transition: width 0.2s ease;
+    box-shadow: 0 0 10px var(--accent-green);
+}
+
+/* === Карточки треков === */
+.track-image {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.track-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+}
+
+.play-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.3s ease;
+}
+
+.play-button {
+
+}
+
+.play-button:hover {
+
+}
+
+/* === Тексты треков === */
+.track-name,
+.track-author {
+    color: white;
+    font-size: 18px;
+    text-shadow: 0 0 6px rgba(139, 92, 246, 0.4);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.track-name:hover,
+.track-author:hover {
+    color: var(--accent-lime);
+    text-shadow: 0 0 12px var(--accent-lime);
+}
+
+/* === Scroll-кнопки === */
+.scroll-button {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--accent-green);
+    font-size: 30px;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.scroll-button:hover {
+    background: rgba(139, 92, 246, 0.2);
+    box-shadow: 0 0 20px var(--accent-purple);
+}
+
+/* === Поиск === */
+.searchbar {
+    background-color: #202020;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    height: 32px;
+    padding: 5px 10px;
+    margin-left: 10px;
+    transition: box-shadow 0.3s ease;
+}
+
+.searchbar:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--accent-green);
+}
