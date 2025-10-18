@@ -26,14 +26,18 @@ function initGlobalPlayer() {
     });
 
     globalAudio.addEventListener('ended', function() {
-        if (currentButton) currentButton.innerHTML = "▶";
-        const playerButton = document.querySelector(".player-button");
-        if (playerButton) playerButton.innerHTML = "▶";
-        currentAudio = null;
-        currentButton = null;
-        clearInterval(seekUpdate);
-        resetSeekSlider();
-        localStorage.removeItem('musicPlayerState');
+        const trackButtons = Array.from(document.querySelectorAll(".play-button"));
+        const currentAudioId = currentButton.getAttribute("data-track-id");
+        const currentIndex = trackButtons.findIndex(btn => btn.getAttribute("data-track-id") === currentAudioId);
+        if (currentIndex !== -1){
+            const nextButton = trackButtons[currentIndex + 1];
+            if (nextButton){
+                play(nextButton)
+            }else {
+                console.log("LastTrack")
+                play(trackButtons[0])
+            }
+        }
     });
 }
 
@@ -83,7 +87,6 @@ function play(button) {
     // Если это тот же трек и он играет - ставим на паузу
     if (currentAudioId === trackId && currentAudio && !currentAudio.paused) {
         currentAudio.pause();
-        button.innerHTML = "▶";
         if (playerButton) playerButton.innerHTML = "▶";
         clearInterval(seekUpdate);
         savePlayerState();
@@ -103,9 +106,6 @@ function play(button) {
 
     // Если играл другой трек - останавливаем его визуально
     if (currentAudio && currentAudioId !== trackId) {
-        if (currentButton && currentButton !== button) {
-            currentButton.innerHTML = "▶";
-        }
         clearInterval(seekUpdate);
     }
 
@@ -121,7 +121,7 @@ function play(button) {
         if (trackTitle) trackTitle.innerHTML = trackName;
         if (trackAuthor) trackAuthor.innerHTML = trackArtistName;
 
-        button.innerHTML = "⏸";
+
         if (playerButton) playerButton.innerHTML = "⏸";
 
         check_liked();
