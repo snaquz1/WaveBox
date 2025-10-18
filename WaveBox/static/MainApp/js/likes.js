@@ -8,4 +8,7 @@ likeButton.addEventListener("click", function (){
         currentButton.setAttribute("data-likes-count", newLikesCount)
         check_liked(newLikesCount)
     })
+    likeButton.classList.remove("liked"); // сброс анимации
+    void likeButton.offsetWidth; // триггер перезапуска
+    likeButton.classList.add("liked");
 })

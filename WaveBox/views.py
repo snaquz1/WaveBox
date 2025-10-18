@@ -59,7 +59,7 @@ def track(request, track_id):
 
 @login_required()
 def library(request):
-    liked_tracks = Track.objects.filter(liked_by=request.user)
+    liked_tracks = Track.objects.filter(tracklike__user=request.user).order_by("-tracklike__date")
     return render(request, 'library.html', {'liked_tracks': liked_tracks})
 
 @login_required

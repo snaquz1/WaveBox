@@ -409,5 +409,23 @@ img{
     color: gray;
 }
 
+.like-btn {
+  font-size: 2rem;
+  transition: transform 0.2s ease;
+}
+
+.like-btn.liked {
+  animation: pulse 0.3s forwards, glow 0.3s forwards;
+
+
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+
 
 

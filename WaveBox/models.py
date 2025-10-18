@@ -9,6 +9,9 @@ from WaveBoxV2 import settings
 
 
 # Create your models here.
+
+
+
 class Track(models.Model):
     name = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
@@ -18,6 +21,7 @@ class Track(models.Model):
     liked_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         blank=True,
+        through='TrackLike',
     )
     sections = models.ManyToManyField("Section", blank=True, default=["Popular now"])
 
@@ -27,6 +31,14 @@ class Track(models.Model):
 
     def like_count(self):
         return self.liked_by.count()
+
+
+
+class TrackLike(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+
 
 class Section(models.Model):
     name = models.CharField(max_length=100)

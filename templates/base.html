@@ -28,8 +28,8 @@
 {% block body %}{% endblock %}
 <div class="player">
     <div class="player-info">
-        <h3 class="track-title"></h3>
-        <p class="artist-name"></p>
+        <a class="track-link"><h3 class="track-title"></h3></a>
+        <a class="artist-link"><p class="artist-name"></p></a>
     </div>
     
     <div class="player-controls">
@@ -54,7 +54,7 @@
 </div>
 </div>
 </body>
-<!-- В конце body, перед закрывающим тегом -->
+
 <div id="global-player" style="display: none;">
     <audio class="audio" id="global-audio"></audio>
     <div class="play-overlay">

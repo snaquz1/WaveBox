@@ -75,9 +75,9 @@ function play(button) {
     let playerButton = document.querySelector(".player-button");
 
     let trackTitle = document.querySelector(".track-title");
+    let trackLink = document.querySelector(".track-link");
     let trackAuthor = document.querySelector(".artist-name");
-    let likeBtn = document.querySelector(".like-btn")
-
+    let authorLink = document.querySelector(".artist-link")
     let trackName = button.getAttribute("data-track-name");
     let trackArtistName = button.getAttribute("data-track-author");
     let trackId = button.getAttribute("data-track-id");
@@ -119,9 +119,9 @@ function play(button) {
 
         // Обновляем UI
         if (trackTitle) trackTitle.innerHTML = trackName;
+        if (trackLink) trackLink.href = `/track/${currentButton.getAttribute("data-track-id")}`
         if (trackAuthor) trackAuthor.innerHTML = trackArtistName;
-
-
+        if (authorLink) authorLink.href = `/profile/${trackArtistName}`;
         if (playerButton) playerButton.innerHTML = "⏸";
 
         check_liked();
@@ -146,7 +146,9 @@ function savePlayerState() {
             volume: volume,
             trackId: currentAudioId,
             trackName: document.querySelector(".track-title")?.textContent || '',
+            trackLink: document.querySelector(".track-link")?.href || '',
             artistName: document.querySelector(".artist-name")?.textContent || '',
+            authorLink: document.querySelector(".artist-link")?.href || '',
             likesCount: likesCount?.textContent || '0',
             isLiked: currentButton.getAttribute("data-liked") === "true"
         };
@@ -168,7 +170,9 @@ function restorePlayerState() {
             currentTime: state.currentTime || 0,
             trackId: state.trackId,
             trackName: state.trackName,
+            trackLink: state.trackLink,
             artistName: state.artistName,
+            authorLink: state.authorLink,
             likesCount: state.likesCount,
             isLiked: state.isLiked,
             volume: state.volume
@@ -180,12 +184,16 @@ function restorePlayerState() {
 
         // Восстанавливаем UI
         const trackTitle = document.querySelector(".track-title");
+        const trackLink = document.querySelector(".track-link")
         const trackAuthor = document.querySelector(".artist-name");
+        const authorLink = document.querySelector(".artist-link");
         const playerButton = document.querySelector(".player-button");
         const volumeSlider = document.querySelector(".simple-volume-slider");
 
         if (trackTitle) trackTitle.textContent = state.trackName;
+        if (trackLink) trackLink.href = state.trackLink;
         if (trackAuthor) trackAuthor.textContent = state.artistName;
+        if (authorLink) authorLink.href = state.authorLink;
         if (likesCount) likesCount.textContent = state.likesCount;
         if (volumeSlider.value !== 0) volumeSlider.value = state.volume * 1;
         else{
@@ -344,7 +352,7 @@ function check_liked(newLikesCount) {
             likeButton.textContent = "❤";
         }
     }
-    if (newLikesCount && likesCount) {
+    if (likesCount) {
         likesCount.textContent = newLikesCount;
     }
 }
