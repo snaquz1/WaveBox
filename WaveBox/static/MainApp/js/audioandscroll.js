@@ -74,6 +74,8 @@ function play(button) {
     let audio = playOverlay.querySelector(".audio");
     let playerButton = document.querySelector(".player-button");
 
+    let playerTrackImage = document.querySelector(".player-track-image")
+    let trackImagesrc = button.getAttribute("data-track-image-src")
     let trackTitle = document.querySelector(".track-title");
     let trackLink = document.querySelector(".track-link");
     let trackAuthor = document.querySelector(".artist-name");
@@ -118,6 +120,7 @@ function play(button) {
         startSeekUpdate();
 
         // Обновляем UI
+        if (playerTrackImage) playerTrackImage.src = trackImagesrc
         if (trackTitle) trackTitle.innerHTML = trackName;
         if (trackLink) trackLink.href = `/track/${currentButton.getAttribute("data-track-id")}`
         if (trackAuthor) trackAuthor.innerHTML = trackArtistName;
@@ -145,6 +148,7 @@ function savePlayerState() {
             isPlaying: !currentAudio.paused,
             volume: volume,
             trackId: currentAudioId,
+            playerTrackImage: document.querySelector(".player-track-image").src,
             trackName: document.querySelector(".track-title")?.textContent || '',
             trackLink: document.querySelector(".track-link")?.href || '',
             artistName: document.querySelector(".artist-name")?.textContent || '',
@@ -169,6 +173,7 @@ function restorePlayerState() {
             audioSrc: state.audioSrc,
             currentTime: state.currentTime || 0,
             trackId: state.trackId,
+            playerTrackImage: state.playerTrackImage,
             trackName: state.trackName,
             trackLink: state.trackLink,
             artistName: state.artistName,
@@ -183,6 +188,7 @@ function restorePlayerState() {
         if (currentAudio) currentAudio.volume = state.volume;
 
         // Восстанавливаем UI
+        const playerTrackImage = document.querySelector(".player-track-image")
         const trackTitle = document.querySelector(".track-title");
         const trackLink = document.querySelector(".track-link")
         const trackAuthor = document.querySelector(".artist-name");
@@ -190,6 +196,7 @@ function restorePlayerState() {
         const playerButton = document.querySelector(".player-button");
         const volumeSlider = document.querySelector(".simple-volume-slider");
 
+        if (playerTrackImage) playerTrackImage.src = state.playerTrackImage;
         if (trackTitle) trackTitle.textContent = state.trackName;
         if (trackLink) trackLink.href = state.trackLink;
         if (trackAuthor) trackAuthor.textContent = state.artistName;

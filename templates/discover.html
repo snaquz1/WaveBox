@@ -33,6 +33,7 @@
                                     data-track-author="{{ track.author }}"
                                     data-liked="{% if user in track.liked_by.all %}true{% else %}false{% endif %}"
                                     data-likes-count="{{ track.like_count }}"
+                                    data-track-image-src="{{ track.image.url }}"
                                     class="play-button" onclick="playTrack(this)">
                                 ▶
                             </button>
