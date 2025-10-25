@@ -2,12 +2,24 @@ from django import forms
 
 from Users.models import CustomUser
 from WaveBox.models import Track, Comment, Message
+from WaveBox.scdownload import download_track
 
 
 class TrackUploadForm(forms.ModelForm):
     class Meta:
         model = Track
-        fields = ("name", "image", "audiofile")
+        fields = ("name", "image", "audiofile", "sclink",)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        audiofile = cleaned_data.get("audiofile")
+        sclink = cleaned_data.get("sclink")
+
+        # Если ни одно из полей не заполнено
+        if not audiofile and not sclink:
+            raise forms.ValidationError("Нужно загрузить файл или вставить ссылку на SoundCloud.")
+
+        return cleaned_data
 
 class AvatarChangingForm(forms.ModelForm):
     class Meta:

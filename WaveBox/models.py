@@ -16,7 +16,8 @@ class Track(models.Model):
     name = models.CharField(max_length=100)
     author = models.CharField(max_length=100)
     date = models.DateField(auto_now_add=True)
-    audiofile = models.FileField(upload_to="audiofiles", validators=[FileExtensionValidator(allowed_extensions=["mp3"])])
+    audiofile = models.FileField(upload_to="audiofiles", blank=True, validators=[FileExtensionValidator(allowed_extensions=["mp3"])])
+    sclink = models.CharField(max_length=100, blank=True)
     image = models.ImageField(upload_to='images/trackimages')
     liked_by = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

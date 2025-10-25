@@ -14,5 +14,6 @@ urlpatterns = [
     path("upload", upload, name="upload"),
     path("search/<str:query>", search, name="search"),
     path("chat/<str:username>", chat, name="chat"),
+    path("download/<int:track_id>", download, name="download"),
 
 ]

@@ -1,11 +1,13 @@
 import random
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Prefetch, Q, Case, When, CharField
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, FileResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TrackUploadForm, AvatarChangingForm, CommentForm, MessageForm
 from .models import *
 from Users.models import CustomUser
+from .scdownload import download_track
+import os
 
 
 def generate_random_recs():
@@ -99,10 +101,18 @@ def upload(request):
     if request.method == "POST":
         form = TrackUploadForm(request.POST, request.FILES)
         if form.is_valid():
+            sclink = form.cleaned_data["sclink"]
+            audiofile = form.cleaned_data["audiofile"]
+            if sclink and not audiofile:
+                downloaded_path = download_track(sclink)
+
+                # получаем относительный путь от media/
+                relative_path = os.path.relpath(downloaded_path, os.path.join(os.getcwd(), "media"))
+                audiofile = relative_path
             track = Track.objects.create(
                 name=form.cleaned_data["name"],
                 author=request.user.username,
-                audiofile=form.cleaned_data["audiofile"],
+                audiofile=audiofile,
                 image=form.cleaned_data["image"],
             )
             track.sections.add(Section.objects.get(name="Popular now"))
@@ -112,6 +122,11 @@ def upload(request):
 
     form = TrackUploadForm()
     return render(request, "upload.html", {"form": form})
+
+def download(request, track_id):
+    track = get_object_or_404(Track, pk=track_id)
+    if track:
+        return FileResponse(open(track.audiofile.path, "rb"), as_attachment=True)
 
 def search(request, query):
     tracks = Track.objects.filter(
